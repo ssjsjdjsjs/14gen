@@ -14,7 +14,10 @@ def get_field14():
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
-        # Sadece field_14'ü döndür
-        return data["field_14"]
+        field_14 = data.get("field_14", "")
+        
+        # Sadece okunabilir karakterleri al
+        readable = ''.join(c for c in field_14 if c.isprintable())
+        return readable  # JSON değil, direkt string döndür
     except Exception as e:
         return jsonify({"error": str(e)}), 500
